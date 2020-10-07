@@ -1,25 +1,17 @@
 package practice1;
 import java.io.*;
-import java.lang.reflect.Field;
+
 import java.net.*;
-import java.nio.Buffer;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import java.util.zip.*;
-
-import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
-//TODO Если не url то return
-//TODO Разобраться почему не создаёт папки
 
 public class Main {
 
@@ -79,6 +71,19 @@ public class Main {
 
             }
     }
+    public static void deleteFolder(File folder) {
+        File[] files = folder.listFiles();
+        if(files!=null) { //some JVMs return null for empty dirs
+            for(File f: files) {
+                if(f.isDirectory()) {
+                    deleteFolder(f);
+                } else {
+                    f.delete();
+                }
+            }
+        }
+        folder.delete();
+    }
     public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser parser = factory.newSAXParser();
@@ -86,7 +91,9 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         System.out.print("Please input name of package: ");
         String pkgName = sc.nextLine();
-        String path = "/home/danila/MEGAsync/Institute/3-rd_semestr/ConfiguralManagement/Practice1_v2/depends/";
+        String path = "/home/danila/MEGAsync/Institute/3-rd_semestr/ConfiguralManagement/Practice1/depends/";
+        File dependFolder = new File(path);
+        dependFolder.mkdir();
         String url = "https://pypi.org/simple/";
         //Download xml with versions and download archive with METADATA
         getWhl(path, url + pkgName,pkgName, parser);
@@ -124,6 +131,7 @@ public class Main {
 
         addittionalDepends(pkgName, depend, path, url, parser);
         System.out.print('}');
+        deleteFolder(dependFolder);
     }
 
 }

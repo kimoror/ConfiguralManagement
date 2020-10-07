@@ -34,12 +34,6 @@ public class ZipUtils
         int s = name.lastIndexOf( File.separatorChar );
         return s == -1 ? null : name.substring( 0, s );
     }
-
-    /***
-     * Extract zipfile to outdir with complete directory structure
-     * @param zipfile Input .zip file
-     * @param outdir Output directory
-     */
     public static void extract(File zipfile, File outdir)
     {
         try
@@ -55,12 +49,6 @@ public class ZipUtils
                     mkdirs(outdir,name);
                     continue;
                 }
-                /* this part is necessary because file entry can come before
-                 * directory entry where is file located
-                 * i.e.:
-                 *   /foo/foo.txt
-                 *   /foo/
-                 */
                 dir = dirpart(name);
                 if( dir != null )
                     mkdirs(outdir,dir);
