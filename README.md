@@ -1,5 +1,5 @@
-Search dependence of python`s libraries
-Result: text of library`s dependences in graphiz format
+Search dependence of python libraries
+Result: text of library dependences in graphiz format
 
 download(String urlStr, String file): It accepts a link to the site (https://pypi.org/simple/ + package name) and the path to the folder where to upload the package. The function loads the file to the specified path.
 
